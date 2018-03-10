@@ -25,6 +25,9 @@ class ChatScreen extends StatefulWidget{
 
 class ChatScreenState  extends State with TickerProviderStateMixin{
 
+  final List<ChatMessage> _messages = <ChatMessage>[];
+  final TextEditingController _textController = new TextEditingController();
+
   @override
   void dispose(){
     for (ChatMessage cm in _messages){
@@ -63,8 +66,7 @@ class ChatScreenState  extends State with TickerProviderStateMixin{
       ),
     );
   }
-  final List<ChatMessage> _messages = <ChatMessage>[];
-  final TextEditingController _textController = new TextEditingController();
+
 
   Widget _buildTextComposer(){
     return new Container(
@@ -94,14 +96,15 @@ class ChatScreenState  extends State with TickerProviderStateMixin{
     ChatMessage message = new ChatMessage(
       text: txt,
       animationController: new AnimationController(
-          vsync: this,
-          duration: Duration(microseconds: 700)
+          duration: Duration(microseconds: 700),
+          vsync: this
         ),
     );
 
     setState((){
       _messages.insert(0, message);
     });
+    message.animationController.forward();
   }
 
 }
